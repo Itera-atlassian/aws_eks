@@ -1,19 +1,27 @@
-name: $(SourceBranchName)_$(date:yyyyMMdd)$(rev:.r)
-
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-  - development
+- main
 
-pool:
-  name: Default
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
 
 stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
 
-  - stage: Build
-    jobs:
-      - job: Build_with_npm
-        steps:
+    - script: |
+        echo "hola"
+      displayName: 'COPY: Dockerfile'
 
-          - script: |
-              echo "hola"
-            displayName: 'COPY: Dockerfile'
