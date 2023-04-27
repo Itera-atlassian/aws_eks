@@ -1,0 +1,19 @@
+name: $(SourceBranchName)_$(date:yyyyMMdd)$(rev:.r)
+
+
+trigger:
+  - development
+
+pool:
+  name: Default
+
+stages:
+
+  - stage: Build
+    jobs:
+      - job: Build_with_npm
+        steps:
+
+          - script: |
+              echo "hola"
+            displayName: 'COPY: Dockerfile'
