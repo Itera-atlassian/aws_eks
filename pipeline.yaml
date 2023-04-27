@@ -17,9 +17,7 @@ variables:
 stages:
 - stage: Build
   displayName: Build image
-
     steps:
-
     - script: |
         echo "hola"
       displayName: 'COPY: Dockerfile'
