@@ -29,9 +29,9 @@ steps:
     awsCredentials: 'AWS_ECR_TEST'
     regionName: 'us-east-1'
     imageSource: 'imagename'
-    sourceImageName: 'python'
+    sourceImageName: 'node'
     sourceImageTag: 'latest'
     repositoryName: 'testbgr/api1'
-    pushTag: 'latest-python'
+    pushTag: 'latest-node'
 
 
