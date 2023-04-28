@@ -13,7 +13,18 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: ECRPullImage@1
+  inputs:
+    awsCredentials: 'AWS_ECR_TEST'
+    regionName: 'us-east-1'
+    repository: '186706249492.dkr.ecr.us-east-1.amazonaws.com/testbgr/api1'
+    imageSource: 'imagetag'
+
+- task: ECRPushImage@1
+  inputs:
+    awsCredentials: 'AWS_ECR_TEST'
+    regionName: 'us-east-1'
+    imageSource: 'imagename'
+    sourceImageName: '186706249492.dkr.ecr.us-east-1.amazonaws.com/testbgr/api1'
+    repositoryName: '186706249492.dkr.ecr.us-east-1.amazonaws.com/testbgr/api1'
+    pushTag: 'latest2'
