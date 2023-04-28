@@ -42,6 +42,7 @@ steps:
 
 
 - script: |
+    docker pull python
     docker ps
   displayName: 'COPY: Dockerfile'
 
