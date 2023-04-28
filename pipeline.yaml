@@ -9,6 +9,9 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+steps:
+
+
 #- task: ECRPullImage@1
 #  inputs:
 #    awsCredentials: 'AWS_ECR_TEST'
