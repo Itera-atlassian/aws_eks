@@ -46,11 +46,14 @@ steps:
     docker images
   displayName: 'COPY: Dockerfile'
 
-#- task: ECRPushImage@1
-#  inputs:
-#    awsCredentials: 'AWS_ECR_TEST'
-#    regionName: 'us-east-1'
-#    imageSource: 'imagename'
-#    repositoryName: 'testbgr/api1'
+- task: ECRPushImage@1
+  inputs:
+    awsCredentials: 'AWS_ECR_TEST'
+    regionName: 'us-east-1'
+    imageSource: 'imagename'
+    sourceImageName: 'python'
+    sourceImageTag: 'latest'
+    repositoryName: 'testbgr/api1'
+    pushTag: 'latest-python'
 
 
