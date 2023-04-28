@@ -6,8 +6,8 @@
 trigger:
 - main
 
-#pool:
-#  agent.name: "Azure Pipelines"
+pool:
+  vmImage: ubuntu-latest
 
 steps:
 - script: echo Hello, world!
