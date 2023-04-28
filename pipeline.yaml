@@ -43,7 +43,7 @@ steps:
 
 - script: |
     docker pull python
-    docker ps
+    docker images
   displayName: 'COPY: Dockerfile'
 
 #- task: ECRPushImage@1
