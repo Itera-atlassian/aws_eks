@@ -45,11 +45,11 @@ steps:
     docker ps
   displayName: 'COPY: Dockerfile'
 
-- task: ECRPushImage@1
-  inputs:
-    awsCredentials: 'AWS_ECR_TEST'
-    regionName: 'us-east-1'
-    imageSource: 'imagename'
-    repositoryName: 'testbgr/api1'
+#- task: ECRPushImage@1
+#  inputs:
+#    awsCredentials: 'AWS_ECR_TEST'
+#    regionName: 'us-east-1'
+#    imageSource: 'imagename'
+#    repositoryName: 'testbgr/api1'
 
 
