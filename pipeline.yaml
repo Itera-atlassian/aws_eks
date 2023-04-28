@@ -20,7 +20,7 @@ steps:
 #    imageSource: 'imagetag'
 
 - script: |
-    docker pull python
+    docker pull node
     docker images
   displayName: 'COPY: Dockerfile'
 
