@@ -6,8 +6,8 @@
 trigger:
 - main
 
-pool:
-  agent.name: "Azure Pipelines"
+#pool:
+#  agent.name: "Azure Pipelines"
 
 steps:
 - script: echo Hello, world!
