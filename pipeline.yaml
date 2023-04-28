@@ -20,11 +20,36 @@ steps:
     repository: 'testbgr/api1'
     imageSource: 'imagetag'
 
+#- task: ECRPushImage@1
+#  inputs:
+#    awsCredentials: 'AWS_ECR_TEST'
+#    regionName: 'us-east-1'
+#    imageSource: 'imagename'
+#    sourceImageName: 'testbgr/api1'
+#    repositoryName: 'testbgr/api1'
+#    pushTag: 'latest2'
+    
+#- task: ECRPushImage@1
+#  inputs:
+#    awsCredentials: 'AWS_ECR_TEST'
+#    regionName: 'us-east-1'
+#    imageSource: 'imagename'
+#    sourceImageName: 'testbgr/api1'
+#    sourceImageTag: '2.0.0'
+#    repositoryName: 'testbgr/api1'
+#    pushTag: 'latest3'
+    
+
+
+- script: |
+    docker ps
+  displayName: 'COPY: Dockerfile'
+
 - task: ECRPushImage@1
   inputs:
     awsCredentials: 'AWS_ECR_TEST'
     regionName: 'us-east-1'
     imageSource: 'imagename'
-    sourceImageName: '186706249492.dkr.ecr.us-east-1.amazonaws.com/testbgr/api1'
     repositoryName: 'testbgr/api1'
-    pushTag: 'latest2'
+
+
