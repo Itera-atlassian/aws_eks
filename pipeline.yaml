@@ -32,6 +32,6 @@ steps:
     sourceImageName: 'imagename'
     sourceImageTag: 'latest'
     repositoryName: 'testbgr/api1'
-    pushTag: 'latest-node'
+    pushTag: 'latest'
 
 
