@@ -35,12 +35,12 @@ steps:
     pushTag: 'latest'
 
 
-- task: AWSCLI@1
+- task: AmazonWebServices.aws-vsts-tools.AWSCLI.AWSCLI@1
+  displayName: 'AWS CLI: update ECS'
   inputs:
     awsCredentials: 'AWS_ECR_TEST'
-    regionName: 'us-east-1' # Cambia esto a la región de tu ECR
-    scriptType: 'bash'
-    scriptLocation: 'inline'
-    inlineScript: |
-      aws ecs update-service --cluster cluster_fargate --service svc_fastapi --force-new-deployment
+    regionName: 'us-east-1'
+    awsCommand: ecs
+    awsSubCommand: update-service --cluster cluster_fargate --service svc_fastapi --force-new-deployment
+    failOnStandardError: false
   displayName: 'Update ECS Service'
