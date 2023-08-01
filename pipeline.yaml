@@ -42,7 +42,7 @@ steps:
     awsCommand: ecs
     awsSubCommand: update-service
     awsArguments: '--cluster cluster_fargate --service svc_fastapi --force-new-deployment'
-    failOnStandardError: false
+    #failOnStandardError: false
   displayName: 'Update ECS Service'
 
 
