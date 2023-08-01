@@ -1,6 +1,6 @@
 FROM python:3.6
 RUN mkdir /app
-COPY requeriments.txt /app
+COPY requeriments.txt ./
 RUN pip install -r requeriments.txt
 COPY main.py /app
 #ENTRYPOINT python main.py 
