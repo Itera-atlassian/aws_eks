@@ -36,7 +36,6 @@ steps:
 
 
 - task: AmazonWebServices.aws-vsts-tools.AWSCLI.AWSCLI@1
-  displayName: 'AWS CLI: update ECS'
   inputs:
     awsCredentials: 'AWS_ECR_TEST'
     regionName: 'us-east-1'
