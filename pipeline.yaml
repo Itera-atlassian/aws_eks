@@ -41,13 +41,13 @@ steps:
     regionName: 'us-east-1'
     awsCommand: ecs
     awsSubCommand: register-task-definition
-    awsArguments: '--family mi-definicion-tarea --network-mode awsvpc --container-definitions "[{
+    awsArguments: --family mi-definicion-tarea --network-mode awsvpc --container-definitions '[{
         "name": "mi-contenedor",
         "image": "111578924465.dkr.ecr.us-east-1.amazonaws.com/testbgr/api1:latest",
         "memory": 512,
         "cpu": 256,
         "essential": true
-    }]"'
+    }]'
     #failOnStandardError: false
   displayName: 'Update ECS Service'
 
