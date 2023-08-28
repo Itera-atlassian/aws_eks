@@ -45,6 +45,18 @@ steps:
     #failOnStandardError: false
   displayName: 'ECS: Update Task Definition'
 
+
+- task: AmazonWebServices.aws-vsts-tools.AWSCLI.AWSCLI@1
+  inputs:
+    awsCredentials: 'AWS_ECR_TEST'
+    regionName: 'us-east-1'
+    awsCommand: ecs
+    awsSubCommand: create-service
+    awsArguments: '--cluster cluster_fargate --service-name svc_fastapi --task-definition my-app'
+    #failOnStandardError: false
+  displayName: 'ECS: Update Task Definition'
+
+
 - task: AmazonWebServices.aws-vsts-tools.AWSCLI.AWSCLI@1
   inputs:
     awsCredentials: 'AWS_ECR_TEST'
