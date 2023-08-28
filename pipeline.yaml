@@ -41,7 +41,7 @@ steps:
     regionName: 'us-east-1'
     awsCommand: ecs
     awsSubCommand: register-task-definition
-    awsArguments: '--cli-input-json file://container-definition.json --version 10'
+    awsArguments: '--cli-input-json file://container-definition.json'
     #failOnStandardError: false
   displayName: 'ECS: Update Task Definition'
 
