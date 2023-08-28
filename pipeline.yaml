@@ -43,7 +43,7 @@ steps:
     awsSubCommand: register-task-definition
     awsArguments: '--cli-input-json file://container-definition.json'
     #failOnStandardError: false
-  displayName: 'Update ECS Service'
+  displayName: 'ECS: Update Task Definition'
 
 - task: AmazonWebServices.aws-vsts-tools.AWSCLI.AWSCLI@1
   inputs:
@@ -53,7 +53,7 @@ steps:
     awsSubCommand: update-service
     awsArguments: '--cluster cluster_fargate --service svc_fastapi --force-new-deployment'
     #failOnStandardError: false
-  displayName: 'Update ECS Service'
+  displayName: 'ECS: Update Service'
 
 
 #- task: AmazonWebServices.aws-vsts-tools.AWSCLI.AWSCLI@1
