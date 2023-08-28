@@ -52,7 +52,7 @@ steps:
     regionName: 'us-east-1'
     awsCommand: ecs
     awsSubCommand: create-service
-    awsArguments: '--cluster cluster_fargate --service-name svc_fastapi --task-definition my-app'
+    awsArguments: '--cluster cluster_fargate --service-name svc_fastapi --task-definition fastapi'
     #failOnStandardError: false
   displayName: 'ECS: Update Task Definition'
 
