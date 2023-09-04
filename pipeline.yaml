@@ -28,5 +28,4 @@ steps:
 
       aws eks update-kubeconfig --region us-east-1 --name basic-cluster-public
 
-      echo "##[section]kubectl get all -n $(K8sNamespace)"
-      kubectl get all -n A
+      kubectl get all -A
