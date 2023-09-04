@@ -41,5 +41,5 @@ steps:
     regionName: 'us-east-1'
     scriptType: inline
     inlineScript: |
-     # You can write your script inline here
-     ls -l
+      echo 'Using identity'
+      aws sts get-caller-identity
