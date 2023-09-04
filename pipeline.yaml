@@ -34,47 +34,12 @@ steps:
     repositoryName: 'testbgr/api1'
     pushTag: 'latest'
 
-
-- task: AmazonWebServices.aws-vsts-tools.AWSCLI.AWSCLI@1
+- task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
+  displayName: 'AWS Shell Script'
   inputs:
     awsCredentials: 'AWS_ECR_TEST'
     regionName: 'us-east-1'
-    awsCommand: ecs
-    awsSubCommand: register-task-definition
-    awsArguments: '--cli-input-json file://container-definition.json'
-    #failOnStandardError: false
-  displayName: 'ECS: Update Task Definition'
-
-
-- task: AmazonWebServices.aws-vsts-tools.AWSCLI.AWSCLI@1
-  inputs:
-    awsCredentials: 'AWS_ECR_TEST'
-    regionName: 'us-east-1'
-    awsCommand: ecs
-    awsSubCommand: create-service
-    awsArguments: '--cluster cluster_fargate --service-name svc_fastapi --task-definition fastapi --desired-count 2'
-    #failOnStandardError: false
-  displayName: 'ECS: Update Task Definition'
-
-
-- task: AmazonWebServices.aws-vsts-tools.AWSCLI.AWSCLI@1
-  inputs:
-    awsCredentials: 'AWS_ECR_TEST'
-    regionName: 'us-east-1'
-    awsCommand: ecs
-    awsSubCommand: update-service
-    awsArguments: '--cluster cluster_fargate --service svc_fastapi --force-new-deployment'
-    #failOnStandardError: false
-  displayName: 'ECS: Update Service'
-
-
-#- task: AmazonWebServices.aws-vsts-tools.AWSCLI.AWSCLI@1
-#  displayName: 'Update ECS Service'
-#  inputs:
-#    awsCredentials: 'AWS_ECR_TEST'
-#    regionName: 'us-east-1' # Cambia esto a la región de tu ECR
-#    awsCliVersion: 'latest'
-#    scriptType: 'bash'
-#    scriptLocation: 'inline'
-#    inlineScript: |
-#      aws ecs update-service --cluster cluster_fargate --service svc_fastapi --force-new-deployment
+    scriptType: inline
+    inlineScript: |
+     # You can write your script inline here
+     ls -l
