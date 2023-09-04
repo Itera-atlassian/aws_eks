@@ -22,3 +22,6 @@ steps:
     inlineScript: |
       echo 'Using identity'
       aws sts get-caller-identity
+
+      ## ECR Login
+      export HELM_EXPERIMENTAL_OCI=1
