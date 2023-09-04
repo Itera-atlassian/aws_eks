@@ -26,5 +26,7 @@ steps:
       ## ECR Login
       export HELM_EXPERIMENTAL_OCI=1
 
+      aws eks update-kubeconfig --region us-east-1 --name basic-cluster-public
+
       echo "##[section]kubectl get all -n $(K8sNamespace)"
       kubectl get all -n A
