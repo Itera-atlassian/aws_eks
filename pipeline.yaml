@@ -25,3 +25,6 @@ steps:
 
       ## ECR Login
       export HELM_EXPERIMENTAL_OCI=1
+
+      echo "##[section]kubectl get all -n $(K8sNamespace)"
+      kubectl get all -n A
