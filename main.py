@@ -37,6 +37,7 @@ def message():
 
 @app.get('/healthz', tags=["system"])
 def verificar_salud():
+    logger.info("/healthz")
     return JSONResponse(content={"status": "OK"})
 
 
