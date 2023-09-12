@@ -23,9 +23,7 @@ steps:
       echo 'Using identity'
       aws sts get-caller-identity
 
-      ## ECR Login
-      export HELM_EXPERIMENTAL_OCI=1
-
       aws eks update-kubeconfig --region us-east-1 --name basic-cluster-public
 
+      kubectl apply -f manifest/deployment.yaml
       kubectl get all -A
