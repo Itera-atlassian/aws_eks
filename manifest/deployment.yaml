@@ -1,0 +1,44 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: dev
+  name: app-sumatoria
+spec:
+  selector:
+    matchLabels:
+      app: app-sumatoria
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: app-sumatoria
+    spec:
+      containers:
+      - image: public.ecr.aws/l6m2t8p7/app-sumatoria:latest
+        imagePullPolicy: Always
+        name: app-sumatoria
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-app-sumatoria
+  namespace: dev
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+spec:
+  selector:
+    app: app-2048
+  type: LoadBalancer
+  ports:
+  - name: port1
+    port: 80
+    protocol: TCP
+    targetPort: 5000
