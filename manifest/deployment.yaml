@@ -35,7 +35,7 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
 spec:
   selector:
-    app: app-2048
+    app: app-sumatoria
   type: LoadBalancer
   ports:
   - name: port1
