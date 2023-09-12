@@ -11,7 +11,20 @@ pool:
 
 steps:
 
+- script: |
+    docker build -t imagename:latest .
+    docker images
+  displayName: 'COPY: Dockerfile'
 
+- task: ECRPushImage@1
+  inputs:
+    awsCredentials: 'AWS_ECR_TEST'
+    regionName: 'us-east-1'
+    imageSource: 'imagename'
+    sourceImageName: 'imagename'
+    sourceImageTag: 'latest'
+    repositoryName: 'testbgr/api1'
+    pushTag: 'latest'
 
 - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
   displayName: 'AWS Shell Script'
