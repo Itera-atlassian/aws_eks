@@ -23,7 +23,7 @@ steps:
     imageSource: 'imagename'
     sourceImageName: 'imagename'
     sourceImageTag: 'latest'
-    repositoryName: 'testbgr/api1'
+    repositoryName: 'app-sumatoria'
     pushTag: 'latest'
 
 - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
