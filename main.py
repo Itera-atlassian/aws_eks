@@ -35,7 +35,7 @@ def message():
         html_template = file.read()
     return "registro exitoso"
 
-@app.get('/health', tags=["system"])
+@app.get('/healthz', tags=["system"])
 def verificar_salud():
     return JSONResponse(content={"status": "OK"})
 
