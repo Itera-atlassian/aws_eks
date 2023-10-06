@@ -19,7 +19,7 @@ logger.propagate = False
 
 app = FastAPI()
 app.title = "HelloWorld with FastAPI"
-app.version = "1.0.0"
+app.version = "2.0.0"
 
 
 
