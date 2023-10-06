@@ -58,7 +58,7 @@ steps:
     pushTag: '$(tag)'
 
 - task: Bash@3
-  displayName: "oke: manifest"
+  displayName: "EKS: manifest"
   inputs:
     targetType: 'inline'
     script: |
