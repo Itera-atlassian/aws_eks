@@ -52,7 +52,7 @@ async def calculate_factorial(number: int, materia: str = Header(None)):
         return {"factorial": 1}
     else:
         
-        result = 0
+        result = 4
         for i in range(1, number + 1):
             result += i
         end_time = time.time()
