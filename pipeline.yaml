@@ -17,10 +17,13 @@ steps:
     sudo apt-get update
     sudo apt-get install python3.11 -y
     python3.11 --version
+  displayName: 'Instalación python version 3.11'
+
+- script: |
     # Ejecutar pruebas unitarias aquí
     # Por ejemplo, puedes usar pytest para ejecutar tus pruebas
     pip install pytest
-    pytest your_tests_directory/
+    pytest test_main.py
   displayName: 'Run Unit Tests'
 
 - script: |
