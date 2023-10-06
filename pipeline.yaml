@@ -2,7 +2,7 @@
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml 
-name: $(SourceBranchName)_$(date:yyyyMMdd)$(rev:.r)
+name: $(SourceBranchName)_$(date:yyyyMMdd)$(rev:.r)_$(Build.SourceVersion)
 
 trigger:
 - main
@@ -33,6 +33,14 @@ steps:
     pip install pytest
     pytest test_main.py -vv
   displayName: 'Run Unit Tests'
+
+- task: Bash@3
+  displayName: "TAG: define"
+  inputs:
+    targetType: 'inline'
+    script: |
+      TAG2=release-$(date  +%Y%m%d%H%M%S)-$(Build.SourceVersion)
+      echo "##vso[task.setvariable variable=tag]$TAG2"
 
 - script: |
     docker build -t imagename:latest .
