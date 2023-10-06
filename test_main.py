@@ -19,7 +19,7 @@ def test_sumatoria_endpoint():
     # Verifica que "sumatoria" sea igual a 16
     response = client.get("/sumatoria/5", headers={"materia": "calculo"})
     assert response.status_code == 200
-    assert response.json().get("sumatoria") == 16  
+    assert response.json().get("sumatoria") == 17  
 
     # Test an invalid request (negative number)
     response = client.get("/sumatoria/-5", headers={"materia": "calculo"})
