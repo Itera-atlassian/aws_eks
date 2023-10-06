@@ -25,14 +25,14 @@ steps:
     # Por ejemplo, puedes usar pytest para ejecutar tus pruebas
     pip install pytest
     pytest test_main.py -vv
-  displayName: 'Instalación python 3.11'
+  displayName: 'PYTHON: Install python 3.11'
 
 - script: |
     # Ejecutar pruebas unitarias aquí
     # Por ejemplo, puedes usar pytest para ejecutar tus pruebas
     pip install pytest
     pytest test_main.py -vv
-  displayName: 'Run Unit Tests'
+  displayName: 'TEST: Run Unit Tests'
 
 - task: Bash@3
   displayName: "TAG: define"
@@ -45,9 +45,10 @@ steps:
 - script: |
     docker build -t imagename:latest .
     docker images
-  displayName: 'COPY: Dockerfile'
+  displayName: 'IMAGE: create image'
 
 - task: ECRPushImage@1
+  displayName: 'ECR: push image'
   inputs:
     awsCredentials: 'AWS_ECR_TEST'
     regionName: 'us-east-1'
@@ -67,7 +68,7 @@ steps:
 
 
 - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
-  displayName: 'AWS Shell Script'
+  displayName: 'EKS: apply manifest'
   inputs:
     awsCredentials: 'AWS_ECR_TEST'
     regionName: 'us-east-1'
