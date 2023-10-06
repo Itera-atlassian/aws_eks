@@ -16,10 +16,10 @@ def test_healthz_endpoint():
     assert response.json() == {"status": "OK"}
 
 def test_sumatoria_endpoint():
-    # Verifica que "sumatoria" sea igual a 16
+    # Verifica que "sumatoria" sea igual a 15
     response = client.get("/sumatoria/5", headers={"materia": "calculo"})
     assert response.status_code == 200
-    assert response.json().get("sumatoria") == 16  
+    assert response.json().get("sumatoria") == 15
 
     # Test an invalid request (negative number)
     response = client.get("/sumatoria/-5", headers={"materia": "calculo"})
