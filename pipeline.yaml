@@ -62,7 +62,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      sed -i "s/latest/&(tag)/g" manifest/deployment.yaml
+      sed -i "s/latest/$(tag)/g" manifest/deployment.yaml
       cat manifest/deployment.yaml
 
 
