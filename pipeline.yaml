@@ -24,6 +24,13 @@ steps:
     # Por ejemplo, puedes usar pytest para ejecutar tus pruebas
     pip install pytest
     pytest test_main.py -vv
+  displayName: 'Instalación python 3.11'
+
+- script: |
+    # Ejecutar pruebas unitarias aquí
+    # Por ejemplo, puedes usar pytest para ejecutar tus pruebas
+    pip install pytest
+    pytest test_main.py -vv
   displayName: 'Run Unit Tests'
 
 - script: |
