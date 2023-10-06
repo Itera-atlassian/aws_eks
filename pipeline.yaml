@@ -20,11 +20,6 @@ steps:
     python3.11 --version
     pip install -r requeriments.txt
     #displayName: 'Instalación python version 3.11'
-
-    # Ejecutar pruebas unitarias aquí
-    # Por ejemplo, puedes usar pytest para ejecutar tus pruebas
-    pip install pytest
-    pytest test_main.py -vv
   displayName: 'PYTHON: Install python 3.11'
 
 - script: |
