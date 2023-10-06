@@ -17,6 +17,7 @@ steps:
     sudo apt-get update
     sudo apt-get install python3.11 -y
     python3.11 --version
+    pip install -r requeriments.txt
   displayName: 'Instalación python version 3.11'
 
 - script: |
