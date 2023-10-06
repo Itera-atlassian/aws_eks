@@ -2,6 +2,7 @@
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml 
+tag: $(SourceBranchName)_$(date:yyyyMMdd)$(rev:.r)
 
 trigger:
 - main
@@ -46,7 +47,7 @@ steps:
     sourceImageName: 'imagename'
     sourceImageTag: 'latest'
     repositoryName: 'app-sumatoria'
-    pushTag: 'latest'
+    pushTag: '$(tag)'
 
 - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
   displayName: 'AWS Shell Script'
