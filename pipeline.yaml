@@ -12,6 +12,13 @@ pool:
 steps:
 
 - script: |
+    # Ejecutar pruebas unitarias aquí
+    # Por ejemplo, puedes usar pytest para ejecutar tus pruebas
+    pip install pytest
+    pytest your_tests_directory/
+  displayName: 'Run Unit Tests'
+
+- script: |
     docker build -t imagename:latest .
     docker images
   displayName: 'COPY: Dockerfile'
