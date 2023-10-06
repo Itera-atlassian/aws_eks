@@ -1,19 +1,293 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Mi primera p&aacute;gina web</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instrucciones Paso a Paso</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .step {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .linux-command {
+            background-color: #f0f0f0;
+            padding: 5px;
+            border-radius: 3px;
+            font-family: "Courier New", monospace;
+            position: relative;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 20%; /* Asegura que la imagen no se vuelva demasiado grande */
+    }
+    </style>
+    <script>
+        function copyCommand(command, button) {
+            const textarea = document.createElement('textarea');
+            textarea.value = command;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            button.innerHTML = 'Copiado';
+            button.disabled = true;
+        }
+    </script>
 </head>
+
 <body>
-    <h1>Bienvenido a mi p&aacute;gina web</h1>
-    <p>Esta es una p&aacute;gina de ejemplo.</p>
-    <ul>
-        <li>Elemento 1</li>
-        <li>Elemento 2</li>
-        <li>Elemento 3</li>
-        <li>Elemento 4</li>
-        <li>Elemento 5</li>
-        <li>Elemento 6</li>
-    </ul>
+    <img src="https://1.cms.s81c.com/sites/default/files/2020-07-02/itera_logo_700x400.png" alt="Logo de Itera">
+
+    <h1>Instrucciones Paso a Paso</h1>
+
+    <div class="step">
+        <h2>Parte 1: Instalar kubectl</h2>
+        <p>Descargar binario:</p>
+        <pre><code class="linux-command">curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"            <button class="copy-button" onclick="copyCommand('curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl            ', this)">Copiar</button></code></pre>
+        <p>Mover binario a /usr/local/bin:</p>
+        <pre><code class="linux-command">sudo mv ./kubectl /usr/local/bin       <button class="copy-button" onclick="copyCommand('sudo mv ./kubectl /usr/local/bin  ', this)">Copiar</button></code></pre>
+        <p>Adicionar a la variable PATH la ruta /usr/local/bin:</p>
+        <pre><code class="linux-command">export PATH=$PATH:/usr/local/bin       <button class="copy-button" onclick="copyCommand('export PATH=$PATH:/usr/local/bin', this)">Copiar</button></code></pre>
+        <p>Dar permisos de ejecución a /usr/local/bin/kubectl:</p>
+        <pre><code class="linux-command">chmod +x /usr/local/bin/kubectl       <button class="copy-button" onclick="copyCommand('chmod +x /usr/local/bin/kubectl  ', this)">Copiar</button></code></pre>
+        <p>Validar version de kubectl:</p>
+        <pre><code class="linux-command">kubectl version       <button class="copy-button" onclick="copyCommand('kubectl version', this)">Copiar</button></code></pre>
+    </div>
+
+    <div class="step">
+        <h2>Parte 2: Instalar eksctl</h2>
+        <p>Descargar binario:</p>
+        <pre><code class="linux-command">curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp       <button class="copy-button" onclick="copyCommand('curl --silent --location https\://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz | tar xz -C /tmp', this)">Copiar</button></code></pre>
+        <p>Mover binario a /usr/local/bin:</p>
+        <pre><code class="linux-command">sudo mv /tmp/eksctl /usr/local/bin       <button class="copy-button" onclick="copyCommand('sudo mv /tmp/eksctl /usr/local/bin', this)">Copiar</button></code></pre>
+        <p>Validar version de eksctl:</p>
+        <pre><code class="linux-command">eksctl version       <button class="copy-button" onclick="copyCommand('eksctl version', this)">Copiar</button></code></pre>
+    </div>
+
+    <div class="step">
+        <h2>Parte 3: Instalar HELM</h2>
+        <p>Descargar script de instalación</script>:</p>
+        <pre><code class="linux-command">curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3       <button class="copy-button" onclick="copyCommand('curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3', this)">Copiar</button></code></pre>
+        <p>Dar permisos:</p>
+        <pre><code class="linux-command">chmod 700 get_helm.sh       <button class="copy-button" onclick="copyCommand('chmod 700 get_helm.sh', this)">Copiar</button></code></pre>
+        <p>Ejecutar script:</p>
+        <pre><code class="linux-command">./get_helm.sh       <button class="copy-button" onclick="copyCommand('./get_helm.sh', this)">Copiar</button></code></pre>
+        <p>Validar version de helm:</p>
+        <pre><code class="linux-command">helm version       <button class="copy-button" onclick="copyCommand('helm version', this)">Copiar</button></code></pre>
+    </div>
+
+    <div class="step">
+        <h2>Paso 4: Crear cluster EKS con eksctl</h2>
+        <p>Descargar el archivo de configuración:</p>
+        <pre><code class="linux-command">wget http://stiven.s3-website-us-east-1.amazonaws.com/eks-cluster-public.yaml       <button class="copy-button" onclick="copyCommand('wget http://stiven.s3-website-us-east-1.amazonaws.com/eks-cluster-public.yaml', this)">Copiar</button></code></pre>
+        <p>Crear cluster:</p>
+        <pre><code class="linux-command">eksctl create cluster -f eks-cluster-public.yaml       <button class="copy-button" onclick="copyCommand('eksctl create cluster -f eks-cluster-public.yaml', this)">Copiar</button></code></pre>
+        <p>Listar nodos:</p>
+        <pre><code class="linux-command">kubectl get nodes       <button class="copy-button" onclick="copyCommand('kubectl get nodes', this)">Copiar</button></code></pre>
+        <p>Listar namespaces:</p>
+        <pre><code class="linux-command">kubectl get namespaces       <button class="copy-button" onclick="copyCommand('kubectl get namespaces', this)">Copiar</button></code></pre>
+        <p>Listar pods:</p>
+        <pre><code class="linux-command">kubectl get pod -A       <button class="copy-button" onclick="copyCommand('kubectl get pod -A', this)">Copiar</button></code></pre>
+    </div>
+
+    <div class="step">
+        <h2>Paso 5: Instalar metrics-server</h2>
+        <p>Aplicar manifiestos:</p>
+        <pre><code class="linux-command">kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml       <button class="copy-button" onclick="copyCommand('kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml', this)">Copiar</button></code></pre>
+        <p>Estadisticas de los nodos:</p>
+        <pre><code class="linux-command">kubectl top nodes            <button class="copy-button" onclick="copyCommand('kubectl top nodes            ', this)">Copiar</button></code></pre>
+        <p>Estadisticas de los pods:</p>
+        <pre><code class="linux-command">kubectl top pod -A            <button class="copy-button" onclick="copyCommand('kubectl top pod -A            ', this)">Copiar</button></code></pre>
+    </div>
+
+    <div class="step">
+        <h2>Paso 6: Instalar aws-load-balancer-controller</h2>
+        <p>Adicionar repositorio eks:</p>
+        <pre><code class="linux-command">helm repo add eks https://aws.github.io/eks-charts       <button class="copy-button" onclick="copyCommand('helm repo add eks https://aws.github.io/eks-charts', this)">Copiar</button></code></pre>
+        <p>Instalar aws-load-balancer-controller:</p>
+        <pre><code class="linux-command">helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=eks-cluster-public --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller            <button class="copy-button" onclick="copyCommand('helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=eks-cluster-public --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller', this)">Copiar</button></code></pre>
+        <p>Ver pods de aws-load-balancer-controller:</p>
+        <pre><code class="linux-command">kubectl get pod -A            <button class="copy-button" onclick="copyCommand('kubectl get pod -A', this)">Copiar</button></code></pre>
+    </div>
+
+    <div class="step">
+        <h2>Paso 7: Manifiestos</h2>
+        <p>Descargar manifiestos:</p>
+        <pre><code class="linux-command">wget https://itera-eks-lab.s3.us-east-2.amazonaws.com/eks.tar            <button class="copy-button" onclick="copyCommand('wget https://itera-eks-lab.s3.us-east-2.amazonaws.com/eks.tar', this)">Copiar</button></code></pre>
+        <p>Descomprimir manifiestos:</p>
+        <pre><code class="linux-command">tar -xvf eks.tar            <button class="copy-button" onclick="copyCommand('tar -xvf eks.tar', this)">Copiar</button></code></pre>
+    </div>
+
+    <div class="step">
+        <h2>Paso 8: Desplegar game 2048</h2>
+        
+        <p>Nombrar el namespace:</p>
+        <pre><code class="linux-command">namespace=fabio-gualtero       <button class="copy-button" onclick="copyCommand('namespace=', this)">Copiar</button></code></pre>
+        <p>Ver variable de namespace:</p>
+        <pre><code class="linux-command">echo $namespace       <button class="copy-button" onclick="copyCommand('echo $namespace', this)">Copiar</button></code></pre>
+        <p>Crear namespace:</p>
+        <pre><code class="linux-command">kubectl create namespace $namespace      <button class="copy-button" onclick="copyCommand('kubectl create namespace $namespace', this)">Copiar</button></code></pre>
+        <p>Listar namespace:</p>
+        <pre><code class="linux-command">kubectl get namespace       <button class="copy-button" onclick="copyCommand('kubectl get namespace', this)">Copiar</button></code></pre>
+        <br>
+        <p>Crear deployment:</p>
+        <pre><code class="linux-command">kubectl apply -f 01-game-deployment.yaml -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl apply -f 01-game-deployment.yaml -n $namespace ', this)">Copiar</button></code></pre>
+        <p>Ver deployment:</p>
+        <pre><code class="linux-command">kubectl get deployment -n $namespace        <button class="copy-button" onclick="copyCommand('kubectl get deployment -n $namespace ', this)">Copiar</button></code></pre>
+        <p>Ver pods:</p>
+        <pre><code class="linux-command">kubectl get pod -n $namespace        <button class="copy-button" onclick="copyCommand('kubectl get pod -n $namespace ', this)">Copiar</button></code></pre>
+        <br>
+        <p>Crear service (ClusterIP):</p>
+        <pre><code class="linux-command">kubectl apply -f 02-game-service.yaml -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl apply -f 02-game-service.yaml -n $namespace', this)">Copiar</button></code></pre>
+        <p>Ver service:</p>
+        <pre><code class="linux-command">kubectl get service -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl get service -n $namespace', this)">Copiar</button></code></pre>
+        <br>
+        <p>Crear service (loadbalancer privado):</p>
+        <pre><code class="linux-command">kubectl apply -f 03-game-service-private.yaml -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl apply -f 03-game-service-private.yaml -n $namespace', this)">Copiar</button></code></pre>
+        <p>Ver service:</p>
+        <pre><code class="linux-command">kubectl get service -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl get service -n $namespace', this)">Copiar</button></code></pre>
+        <br>
+        <p>Crear service (loadbalancer publico):</p>
+        <pre><code class="linux-command">kubectl apply -f 04-game-service-public.yaml -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl apply -f 04-game-service-public.yaml -n $namespace', this)">Copiar</button></code></pre>
+        <p>Ver service:</p>
+        <pre><code class="linux-command">kubectl get service -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl get service -n $namespace', this)">Copiar</button></code></pre>
+        <br>
+        <p>Crear ingress:</p>
+        <pre><code class="linux-command">kubectl apply -f 05-game-ingress.yaml -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl apply -f 05-game-ingress.yaml -n $namespace', this)">Copiar</button></code></pre>
+        <p>Ver ingress:</p>
+        <pre><code class="linux-command">kubectl get ingress -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl get ingress -n $namespace', this)">Copiar</button></code></pre>
+        <br>
+    </div>
+
+    <div class="step">
+        <h2>Paso 10: Crear perfil de fargate</h2>
+        <p>Nombrar el namespace:</p>
+        <pre><code class="linux-command">namespace=fabio-gualtero-fargate       <button class="copy-button" onclick="copyCommand('namespace=', this)">Copiar</button></code></pre>
+        <p>Ver variable de namespace:</p>
+        <pre><code class="linux-command">echo $namespace       <button class="copy-button" onclick="copyCommand('echo $namespace', this)">Copiar</button></code></pre>
+        <p>Crear namespace:</p>
+        <pre><code class="linux-command">kubectl create namespace $namespace      <button class="copy-button" onclick="copyCommand('kubectl create namespace $namespace', this)">Copiar</button></code></pre>
+        <p>Listar namespace:</p>
+        <pre><code class="linux-command">kubectl get namespace       <button class="copy-button" onclick="copyCommand('kubectl get namespace', this)">Copiar</button></code></pre>
+        <br>
+        <p>Crear perfil de fargate:</p>
+        <pre><code class="linux-command">eksctl create fargateprofile  --cluster my-cluster-eks --name game-2049  --namespace $namespace       <button class="copy-button" onclick="copyCommand('eksctl create fargateprofile  --cluster my-cluster-eks --name game-2049  --namespace $namespace', this)">Copiar</button></code></pre>
+    </div>
+
+    <div class="step">
+        <h2>Paso 9: Desplegar game 2048 (Fargate - Serverless)</h2>
+
+        <p>Crear deployment:</p>
+        <pre><code class="linux-command">kubectl apply -f 01-game-deployment.yaml -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl apply -f 01-game-deployment.yaml -n $namespace ', this)">Copiar</button></code></pre>
+        <p>Ver deployment:</p>
+        <pre><code class="linux-command">kubectl get deployment -n $namespace        <button class="copy-button" onclick="copyCommand('kubectl get deployment -n $namespace ', this)">Copiar</button></code></pre>
+        <p>Ver pods:</p>
+        <pre><code class="linux-command">kubectl get pod -n $namespace        <button class="copy-button" onclick="copyCommand('kubectl get pod -n $namespace ', this)">Copiar</button></code></pre>
+        <br>
+        <p>Crear service (ClusterIP):</p>
+        <pre><code class="linux-command">kubectl apply -f 02-game-service.yaml -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl apply -f 02-game-service.yaml -n $namespace', this)">Copiar</button></code></pre>
+        <p>Ver service:</p>
+        <pre><code class="linux-command">kubectl get service -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl get service -n $namespace', this)">Copiar</button></code></pre>
+        <br>
+        <p>Crear ingress:</p>
+        <pre><code class="linux-command">kubectl apply -f 05-game-ingress.yaml -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl apply -f 05-game-ingress.yaml -n $namespace', this)">Copiar</button></code></pre>
+        <p>Ver ingress:</p>
+        <pre><code class="linux-command">kubectl get ingress -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl get ingress -n $namespace', this)">Copiar</button></code></pre>
+        <br>
+        <p>Ver Nodos:</p>
+        <pre><code class="linux-command">kubectl get po -A  -o wide            <button class="copy-button" onclick="copyCommand('kubectl get po -A  -o wide', this)">Copiar</button></code></pre>
+        
+    </div>
+
+    <div class="step">
+        <h2>Paso 10: Desplegar aplicación con AWS EBS</h2>
+        <p>Nombrar el namespace:</p>
+        <pre><code class="linux-command">namespace=fabio-gualtero-ebs       <button class="copy-button" onclick="copyCommand('namespace=', this)">Copiar</button></code></pre>
+        <p>Ver variable de namespace:</p>
+        <pre><code class="linux-command">echo $namespace       <button class="copy-button" onclick="copyCommand('echo $namespace', this)">Copiar</button></code></pre>
+        <p>Crear namespace:</p>
+        <pre><code class="linux-command">kubectl create namespace $namespace       <button class="copy-button" onclick="copyCommand('kubectl create namespace $namespace', this)">Copiar</button></code></pre>
+        <p>Listar namespace:</p>
+        <pre><code class="linux-command">kubectl get namespace       <button class="copy-button" onclick="copyCommand('kubectl get namespace', this)">Copiar</button></code></pre>
+        <br>
+        <p>Crear Storage Class:</p>
+        <pre><code class="linux-command">kubectl apply -f 06-ebs-storageclass.yaml -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl apply -f 06-ebs-storageclass.yaml -n $namespace', this)">Copiar</button></code></pre>
+        <p>Ver Storage Class:</p>
+        <pre><code class="linux-command">kubectl get storageclass            <button class="copy-button" onclick="copyCommand('kubectl get storageclass', this)">Copiar</button></code></pre>
+        <br>
+        <p>Crear Persistent Volume Claim:</p>
+        <pre><code class="linux-command">kubectl apply -f 07-ebs-PersistentVolumeclaim.yaml -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl apply -f 07-ebs-PersistentVolumeclaim.yaml -n $namespace', this)">Copiar</button></code></pre>
+        <p>Ver Persistent Volume Claim:</p>
+        <pre><code class="linux-command">kubectl get pvc -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl get pvc -n $namespace', this)">Copiar</button></code></pre>
+        <br>
+        <p>Crear pod:</p>
+        <pre><code class="linux-command">kubectl apply -f 08-ebs-deployment.yaml -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl apply -f 08-ebs-deployment.yaml -n $namespace', this)">Copiar</button></code></pre>
+        <p>Ver pod:</p>
+        <pre><code class="linux-command">kubectl get pod -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl get pod -n $namespace', this)">Copiar</button></code></pre>
+        <p>Ingresar al pod:</p>
+        <pre><code class="linux-command">kubectl exec -it app -n $namespace -- bash            <button class="copy-button" onclick="copyCommand('kubectl exec -it app -n $namespace -- bash  ', this)">Copiar</button></code></pre>
+        <p>Ejecutar lsblk:</p>
+        <pre><code class="linux-command">lsblk            <button class="copy-button" onclick="copyCommand('lsblk', this)">Copiar</button></code></pre>
+        <p>Salir del pod:</p>
+        <pre><code class="linux-command">exit            <button class="copy-button" onclick="copyCommand('exit', this)">Copiar</button></code></pre>
+        <br>
+    </div>
+
+    <div class="step">
+        <h2>Paso 11: Desplegar aplicación con health checks</h2>
+        <p>Crear deployment y service:</p>
+        <pre><code class="linux-command">kubectl apply -f 09-healthchecks-deployment-and-service.txt -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl apply -f 09-healthchecks-deployment-and-service.txt -n $namespace', this)">Copiar</button></code></pre>
+        <p>Ver deployment:</p>
+        <pre><code class="linux-command">kubectl get deployment -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl get deployment -n $namespace', this)">Copiar</button></code></pre>
+        <br>
+        <p>Ver service:</p>
+        <pre><code class="linux-command">kubectl get service -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl get service -n $namespace', this)">Copiar</button></code></pre>
+        <br>
+        <p>Ver logs de los pods:</p>
+        <pre><code class="linux-command">kubectl logs -f -l app=app-sumatoria -n $namespace --tail 10000            <button class="copy-button" onclick="copyCommand('kubectl logs -f -l app=app-sumatoria -n $namespace --tail 10000', this)">Copiar</button></code></pre>
+    </div>
+
+    <div class="step">
+        <h2>Paso 12: Horizontal Pod Autoscaling</h2>
+        <p>Crear hpa:</p>
+        <pre><code class="linux-command">kubectl apply -f 10-hpa.yaml -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl apply -f 10-hpa.yaml -n $namespace  ', this)">Copiar</button></code></pre>
+        <p>Ver hpa:</p>
+        <pre><code class="linux-command">kubectl get hpa -n $namespace            <button class="copy-button" onclick="copyCommand('kubectl get hpa -n $namespace', this)">Copiar</button></code></pre>
+        <br>
+        <p>Ver pods:</p>
+        <pre><code class="linux-command">kubectl get pod -n $namespace -w       <button class="copy-button" onclick="copyCommand('kubectl get pod -n $namespace -w', this)">Copiar</button></code></pre>
+    </div>
+
 </body>
+
 </html>
