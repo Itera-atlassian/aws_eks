@@ -45,7 +45,7 @@ steps:
   displayName: 'ECR: push image'
   inputs:
     awsCredentials: 'AWS_ECR_TEST'
-    regionName: 'us-east-1'
+    regionName: 'us-east-2'
     imageSource: 'imagename'
     sourceImageName: 'imagename'
     sourceImageTag: 'latest'
