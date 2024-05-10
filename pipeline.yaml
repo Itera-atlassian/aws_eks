@@ -72,7 +72,7 @@ steps:
       echo 'Using identity'
       aws sts get-caller-identity
 
-      aws eks update-kubeconfig --region us-east-1 --name basic-cluster-public
+      aws eks update-kubeconfig --region us-east-2 --name cluster-eks
 
       kubectl apply -f manifest/deployment.yaml
       kubectl get all -A
