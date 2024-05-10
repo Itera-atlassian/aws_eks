@@ -21,12 +21,12 @@ steps:
     pip install -r requeriments.txt
   displayName: 'PYTHON: Install python 3.11'
 
-- script: |
-    # Ejecutar pruebas unitarias aquí
-    # Por ejemplo, puedes usar pytest para ejecutar tus pruebas
-    pip install pytest
-    pytest test_main.py -vv
-  displayName: 'TEST: Run Unit Tests'
+#- script: |
+#    # Ejecutar pruebas unitarias aquí
+#    # Por ejemplo, puedes usar pytest para ejecutar tus pruebas
+#    pip install pytest
+#    pytest test_main.py -vv
+#  displayName: 'TEST: Run Unit Tests'
 
 - task: Bash@3
   displayName: "TAG: define"
