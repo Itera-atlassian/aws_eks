@@ -20,7 +20,7 @@ spec:
         app: app-sumatoria
     spec:
       containers:
-      - image: 111578924465.dkr.ecr.us-east-1.amazonaws.com/app-sumatoria:latest
+      - image: 963753594188.dkr.ecr.us-east-2.amazonaws.com/app-sumatoria:latest
         imagePullPolicy: Always
         name: app-sumatoria
         ports:
