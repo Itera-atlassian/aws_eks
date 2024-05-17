@@ -16,7 +16,7 @@ stages:
   displayName: 'Build - Python'
   jobs:
   - job: BuildJob
-    displayName: 'Build Job'
+    displayName: 'Stage CI'
     steps:
 
     - script: |
@@ -58,6 +58,10 @@ stages:
         sourceImageTag: 'latest'
         repositoryName: 'app-sumatoria'
         pushTag: '$(tag)'
+
+  - job: BuildJob
+    displayName: 'Stage CD'
+    steps:
 
     - task: Bash@3
       displayName: "EKS: manifest"
