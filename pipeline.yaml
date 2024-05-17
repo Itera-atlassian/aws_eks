@@ -12,11 +12,11 @@ pool:
 
 
 stages:
-- stage: Build
-  displayName: 'Build - Python'
+- stage: StageCI
+  displayName: 'Stage CI'
   jobs:
   - job: BuildJob
-    displayName: 'Stage CI'
+    displayName: 'Build - Python'
     steps:
 
     - script: |
@@ -62,11 +62,11 @@ stages:
 
 
 
-- stage: Deployment
-  displayName: 'Deploy - dev'
+- stage: StageCD
+  displayName: 'Stage CD'
   jobs:
   - job: BuildJob
-    displayName: 'Stage CD'
+    displayName: 'Deploy to EKS'
     steps:
 
     - task: Bash@3
