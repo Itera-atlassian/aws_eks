@@ -59,6 +59,12 @@ stages:
         repositoryName: 'app-sumatoria'
         pushTag: '$(tag)'
 
+
+
+
+- stage: Deployment
+  displayName: 'Deploy - dev'
+  jobs:
   - job: BuildJob
     displayName: 'Stage CD'
     steps:
