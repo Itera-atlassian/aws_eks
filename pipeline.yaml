@@ -87,7 +87,7 @@ stages:
           echo 'Using identity'
           aws sts get-caller-identity
           aws eks update-kubeconfig --region us-east-2 --name cluster-eks
-          export PREVIOUS_IMAGE=$(kubectl get deployment app-sumatoria -o=jsonpath='{$.spec.template.spec.containers[:1].image}')
+          export PREVIOUS_IMAGE=$(kubectl get deployment app-sumatoria -o=jsonpath='{$.spec.template.spec.containers[:1].image}' -n dev)
           echo "##vso[task.setvariable variable=previousImage]$PREVIOUS_IMAGE"
 
 
