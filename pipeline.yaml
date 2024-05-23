@@ -77,6 +77,7 @@ stages:
           TAG2=release-$(Build.SourceVersion)
           echo "##vso[task.setvariable variable=tag]$TAG2"
           echo $(tag)
+          printenv
 
     - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
       displayName: 'EKS: Get current image'
@@ -91,6 +92,7 @@ stages:
           export PREVIOUS_IMAGE=$(kubectl get deployment app-sumatoria -o=jsonpath='{$.spec.template.spec.containers[:1].image}' -n dev)
           echo "##vso[task.setvariable variable=previousImage]$PREVIOUS_IMAGE"
           echo $(previousImage)
+          printenv
 
 
     - task: Bash@3
