@@ -77,11 +77,18 @@ stages:
           TAG2=release-$(Build.SourceVersion)
           echo "##vso[task.setvariable variable=tag]$TAG2"
 
-    - script: |
-        set -e
-        export PREVIOUS_IMAGE=$(kubectl get deployment app-sumatoria -o=jsonpath='{$.spec.template.spec.containers[:1].image}')
-        echo "##vso[task.setvariable variable=previousImage]$PREVIOUS_IMAGE"
-      displayName: 'Get current image'
+    - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
+      displayName: 'EKS: Get current image'
+      inputs:
+        awsCredentials: 'AWS_ECR_TEST'
+        regionName: 'us-east-1'
+        scriptType: inline
+        inlineScript: |
+          echo 'Using identity'
+          aws sts get-caller-identity
+          export PREVIOUS_IMAGE=$(kubectl get deployment app-sumatoria -o=jsonpath='{$.spec.template.spec.containers[:1].image}')
+          echo "##vso[task.setvariable variable=previousImage]$PREVIOUS_IMAGE"
+
 
     - task: Bash@3
       displayName: "EKS: manifest"
