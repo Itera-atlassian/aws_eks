@@ -69,16 +69,6 @@ stages:
     displayName: 'Deploy to EKS'
     steps:
 
-    - task: Bash@3
-      displayName: "TAG: define"
-      inputs:
-        targetType: 'inline'
-        script: |
-          TAG2=release-$(Build.SourceVersion)
-          echo "##vso[task.setvariable variable=tag]$TAG2"
-          echo $(tag)
-          printenv
-
     - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
       displayName: 'EKS: Get current image'
       inputs:
@@ -86,13 +76,19 @@ stages:
         regionName: 'us-east-1'
         scriptType: inline
         inlineScript: |
-          echo 'Using identity'
-          aws sts get-caller-identity
           aws eks update-kubeconfig --region us-east-2 --name cluster-eks
           export PREVIOUS_IMAGE=$(kubectl get deployment app-sumatoria -o=jsonpath='{$.spec.template.spec.containers[:1].image}' -n dev)
           echo "##vso[task.setvariable variable=previousImage]$PREVIOUS_IMAGE"
-          echo $(previousImage)
-          printenv
+          echo "Before Iamge: $(PREVIOUS_IMAGE)"
+
+    - task: Bash@3
+      displayName: "TAG: define"
+      inputs:
+        targetType: 'inline'
+        script: |
+          TAG2=release-$(Build.SourceVersion)
+          echo "##vso[task.setvariable variable=tag]$TAG2"
+          echo "New Iamge: $(TAG2)"
 
 
     - task: Bash@3
