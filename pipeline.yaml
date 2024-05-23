@@ -80,6 +80,7 @@ stages:
           export PREVIOUS_IMAGE=$(kubectl get deployment app-sumatoria -o=jsonpath='{$.spec.template.spec.containers[:1].image}' -n dev)
           echo "##vso[task.setvariable variable=previousImage]$PREVIOUS_IMAGE"
           echo "Before Iamge: $(PREVIOUS_IMAGE)"
+          echo $PREVIOUS_IMAGE
 
     - task: Bash@3
       displayName: "TAG: define"
@@ -88,7 +89,7 @@ stages:
         script: |
           TAG2=release-$(Build.SourceVersion)
           echo "##vso[task.setvariable variable=tag]$TAG2"
-          echo "New Iamge: $(TAG2)"
+          echo "New Iamge: $(TAG2)" $TAG2
 
 
     - task: Bash@3
