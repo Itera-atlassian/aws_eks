@@ -76,6 +76,7 @@ stages:
         script: |
           TAG2=release-$(Build.SourceVersion)
           echo "##vso[task.setvariable variable=tag]$TAG2"
+          echo $(tag)
 
     - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
       displayName: 'EKS: Get current image'
@@ -89,6 +90,7 @@ stages:
           aws eks update-kubeconfig --region us-east-2 --name cluster-eks
           export PREVIOUS_IMAGE=$(kubectl get deployment app-sumatoria -o=jsonpath='{$.spec.template.spec.containers[:1].image}' -n dev)
           echo "##vso[task.setvariable variable=previousImage]$PREVIOUS_IMAGE"
+          echo $(previousImage)
 
 
     - task: Bash@3
@@ -130,7 +132,7 @@ stages:
         UNHEALTHY=$(kubectl get pods -n dev | grep app-sumatoria | grep -c '1/0')
         echo $UNHEALTHY
         if [ "$UNHEALTHY" -ne "$(kubectl get pods | wc -l)" ]; then
-          echo "Rolling back to previous image: $(PREVIOUS_IMAGE)"
-          kubectl set image deploy app-sumatoria app-sumatoria=$(PREVIOUS_IMAGE) -n dev
+          echo "Rolling back to previous image: $(previousImage)"
+          kubectl set image deploy app-sumatoria app-sumatoria=$(previousImage) -n dev
         fi
       displayName: 'Check pod health and rollback if necessary'
