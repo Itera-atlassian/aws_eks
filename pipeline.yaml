@@ -109,3 +109,12 @@ stages:
           aws sts get-caller-identity
           aws eks update-kubeconfig --region us-east-2 --name cluster-eks
           kubectl rollout status deploy app-sumatoria -n dev --timeout=60s
+
+    - script: |
+        kubectl get pods
+        UNHEALTHY=$(kubectl get pods -n dev | grep -c '1/1')
+        if [ "$UNHEALTHY" -ne "$(kubectl get pods | wc -l)" ]; then
+          echo "Rolling back to previous image: $(previousImage)"
+          kubectl set image deployment/my-deployment app-sumatoria=$(previousImage) -n dev
+        fi
+      displayName: 'Check pod health and rollback if necessary'
