@@ -123,15 +123,11 @@ stages:
           echo 'Using identity'
           aws sts get-caller-identity
           aws eks update-kubeconfig --region us-east-2 --name cluster-eks
-          kubectl rollout status deploy app-sumatoria -n dev --timeout=60s
-      continueOnError: true
-
-    - script: |
-        kubectl get pods
-        UNHEALTHY=$(kubectl get pods -n dev | grep app-sumatoria | grep -c '1/0')
-        echo $UNHEALTHY
-        if [ "$UNHEALTHY" -ne "$(kubectl get pods | wc -l)" ]; then
-          echo "Rolling back to previous image: $(previousImage)"
-          kubectl set image deploy app-sumatoria app-sumatoria=$(previousImage) -n dev
-        fi
-      displayName: 'Check pod health and rollback if necessary'
+          
+          if kubectl rollout status deploy app-sumatoria -n dev --timeout=60s; then
+             echo "Deployment succeeded"
+             kubectl set image deploy app-sumatoria app-sumatoria=$(previousImage) -n dev
+          else
+             echo "Deployment failed"
+          fi
+      #continueOnError: true
