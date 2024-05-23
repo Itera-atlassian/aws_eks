@@ -93,10 +93,19 @@ stages:
         regionName: 'us-east-1'
         scriptType: inline
         inlineScript: |
+          aws sts get-caller-identity
+          aws eks update-kubeconfig --region us-east-2 --name cluster-eks
+          kubectl apply -f manifest/deployment.yaml
+
+
+    - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
+      displayName: 'EKS: validate deployment'
+      inputs:
+        awsCredentials: 'AWS_ECR_TEST'
+        regionName: 'us-east-1'
+        scriptType: inline
+        inlineScript: |
           echo 'Using identity'
           aws sts get-caller-identity
-
           aws eks update-kubeconfig --region us-east-2 --name cluster-eks
-
-          kubectl apply -f manifest/deployment.yaml
-          kubectl get all -A
+          kubectl rollout status deploy app-sumatoria -n dev --timeout=60s
