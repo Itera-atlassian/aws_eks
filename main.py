@@ -30,9 +30,9 @@ def message():
     return HTMLResponse(content=html_template)
 
 
-@app.get('/healthz2', tags=["system"])
+@app.get('/healthz', tags=["system"])
 def verificar_salud():
-    logger.info("/healthz2")
+    logger.info("/healthz")
     return JSONResponse(content={"status": "OK"})
 
 
