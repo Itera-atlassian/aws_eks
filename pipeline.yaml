@@ -69,7 +69,10 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    - script: echo "Waiting for approval..."
+    - script: |
+         echo "Waiting for approval..."
+      displayName: 'IMAGE: create image'
+
 
   # Aprobaciones y verificaciones para la etapa
   approval:
