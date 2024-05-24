@@ -71,7 +71,7 @@ stages:
     steps:
     - task: ManualValidation@0
       inputs:
-        notifyUsers: 'fegualterog@gmail.com'
+        notifyUsers: 'fabio.gualtero@iteraprocess.com'
 
 
 
