@@ -129,5 +129,6 @@ stages:
              kubectl set image deploy app-sumatoria app-sumatoria=$(previousImage) -n dev
           else
              echo "Deployment failed"
+             exit 1
           fi
       #continueOnError: true
