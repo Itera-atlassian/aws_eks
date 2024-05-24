@@ -108,6 +108,13 @@ stages:
           sed -i "s/latest/$(tag)/g" manifest/deployment.yaml
           cat manifest/deployment.yaml
 
+    - task: Bash@3
+      displayName: "EKS: manifest (kubescore)"
+      inputs:
+        targetType: 'inline'
+        script: |
+        #https://kube-score.com/
+        docker run -v $(pwd):/project zegl/kube-score:latest score manifest/*.yaml
 
     - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
       displayName: 'EKS: apply manifest'
