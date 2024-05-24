@@ -62,29 +62,8 @@ stages:
 
 
 
-- stage: ApprovalStage
-  displayName: 'Approval Stage'
-  jobs:
-  - job: WaitForApproval
-    displayName: 'Awaiting Manual Approval'
-    pool: server
-    steps:
-    - task: ManualValidation@0
-      inputs:
-        notifyUsers: 'fabio.gualtero@iteraprocess.com'
-
-  approvals:
-    approvals:
-    - approvalType: Manual
-      reviewers:
-        - reviewer: 'fabio.gualtero@iteraprocess.com'
-      timeout: '120m'  # Timeout after 2 hours
-
-
 - stage: StageCD
   displayName: 'Stage CD'
-  dependsOn: ApprovalStage
-  condition: succeeded('ApprovalStage')
   jobs:
   - job: BuildJob
     displayName: 'Deploy to EKS'
