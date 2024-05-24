@@ -129,6 +129,10 @@ stages:
              
           else
              echo "Deployment failed"
+             echo "\n\n\n --- LOGS:"
+             for i in $(kubectl get pods -l app=app-sumatoria -n dev | grep -e '1/0' | cut -d' ' -f1); do kubectl logs $i -n dev; done
+             echo "\n\n\n --- DESCRIBE POD:"
+             for i in $(kubectl get pods -l app=app-sumatoria -n dev | grep -e '0/1' | cut -d' ' -f1); do kubectl describe pod $i -n dev; done
              kubectl set image deploy app-sumatoria app-sumatoria=$(previousImage) -n dev
              exit 1
           fi
