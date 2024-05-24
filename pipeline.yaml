@@ -69,35 +69,35 @@ stages:
     displayName: 'Deploy to EKS'
     steps:
 
-#    - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
-#      displayName: 'IMAGE: define'
-#      inputs:
-#        awsCredentials: 'AWS_ECR_TEST'
-#        regionName: 'us-east-1'
-#        scriptType: inline
-#        inlineScript: |
-#          aws eks update-kubeconfig --region us-east-2 --name cluster-eks
+    - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
+      displayName: 'IMAGE: define'
+      inputs:
+        awsCredentials: 'AWS_ECR_TEST'
+        regionName: 'us-east-1'
+        scriptType: inline
+        inlineScript: |
+          aws eks update-kubeconfig --region us-east-2 --name cluster-eks
 
-#          echo " .----------------.  .----------------.  .----------------.  .----------------.  .----------------."
-#          echo "| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |"
-#          echo "| |     _____    | || | ____    ____ | || |      __      | || |    ______    | || |  _________   | |"
-#          echo "| |    |_   _|   | || ||_   \  /   _|| || |     /  \     | || |  .' ___  |   | || | |_   ___  |  | |"
-#          echo "| |      | |     | || |  |   \/   |  | || |    / /\ \    | || | / .'   \_|   | || |   | |_  \_|  | |"
-#          echo "| |      | |     | || |  | |\  /| |  | || |   / ____ \   | || | | |    ____  | || |   |  _|  _   | |"
-#          echo "| |     _| |_    | || | _| |_\/_| |_ | || | _/ /    \ \_ | || | \ \`.___]  _| | || |  _| |___/ |  | |"
-#          echo "| |    |_____|   | || ||_____||_____|| || ||____|  |____|| || |  \`._____.'   | || | |_________|  | |"
-#          echo "| |              | || |              | || |              | || |              | || |              | |"
-#          echo "| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |"
-#          echo " '----------------'  '----------------'  '----------------'  '----------------'  '----------------'"
+          echo " .----------------.  .----------------.  .----------------.  .----------------.  .----------------."
+          echo "| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |"
+          echo "| |     _____    | || | ____    ____ | || |      __      | || |    ______    | || |  _________   | |"
+          echo "| |    |_   _|   | || ||_   \  /   _|| || |     /  \     | || |  .' ___  |   | || | |_   ___  |  | |"
+          echo "| |      | |     | || |  |   \/   |  | || |    / /\ \    | || | / .'   \_|   | || |   | |_  \_|  | |"
+          echo "| |      | |     | || |  | |\  /| |  | || |   / ____ \   | || | | |    ____  | || |   |  _|  _   | |"
+          echo "| |     _| |_    | || | _| |_\/_| |_ | || | _/ /    \ \_ | || | \ \`.___]  _| | || |  _| |___/ |  | |"
+          echo "| |    |_____|   | || ||_____||_____|| || ||____|  |____|| || |  \`._____.'   | || | |_________|  | |"
+          echo "| |              | || |              | || |              | || |              | || |              | |"
+          echo "| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |"
+          echo " '----------------'  '----------------'  '----------------'  '----------------'  '----------------'"
 
 
-#          PREVIOUS_IMAGE=$(kubectl get deployment app-sumatoria -o=jsonpath='{$.spec.template.spec.containers[:1].image}' -n dev)
-#          echo "##vso[task.setvariable variable=previousImage]$PREVIOUS_IMAGE"
-#          echo "OLD: $PREVIOUS_IMAGE"
+          PREVIOUS_IMAGE=$(kubectl get deployment app-sumatoria -o=jsonpath='{$.spec.template.spec.containers[:1].image}' -n dev)
+          echo "##vso[task.setvariable variable=previousImage]$PREVIOUS_IMAGE"
+          echo "OLD: $PREVIOUS_IMAGE"
 
-#          TAG2=release-$(Build.SourceVersion)
-#          echo "##vso[task.setvariable variable=tag]$TAG2"
-#          echo "NEW: $(echo $PREVIOUS_IMAGE | cut -d':' -f1):$TAG2"
+          TAG2=release-$(Build.SourceVersion)
+          echo "##vso[task.setvariable variable=tag]$TAG2"
+          echo "NEW: $(echo $PREVIOUS_IMAGE | cut -d':' -f1):$TAG2"
 
 
     - task: Bash@3
