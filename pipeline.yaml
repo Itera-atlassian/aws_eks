@@ -75,13 +75,11 @@ stages:
 
 
   # Aprobaciones y verificaciones para la etapa
-  approval:
-    approvals:
-      - name: 'Manual Approval'
-        type: 'Manual'
-        requests:
-          - user: 'user@example.com'
-        timeout: '120m'  # Timeout after 2 hours
+  approvals:
+    - approvalType: Manual
+      reviewers:
+        - reviewer: user@example.com
+      timeout: '120m'  # Timeout after 2 hours
 
 
 
