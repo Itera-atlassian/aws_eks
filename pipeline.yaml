@@ -76,6 +76,8 @@ stages:
         regionName: 'us-east-1'
         scriptType: inline
         inlineScript: |
+          aws eks update-kubeconfig --region us-east-2 --name cluster-eks
+
           echo " .----------------.  .----------------.  .----------------.  .----------------.  .----------------."
           echo "| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |"
           echo "| |     _____    | || | ____    ____ | || |      __      | || |    ______    | || |  _________   | |"
@@ -88,8 +90,8 @@ stages:
           echo "| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |"
           echo " '----------------'  '----------------'  '----------------'  '----------------'  '----------------'"
 
-          aws eks update-kubeconfig --region us-east-2 --name cluster-eks
-          export PREVIOUS_IMAGE=$(kubectl get deployment app-sumatoria -o=jsonpath='{$.spec.template.spec.containers[:1].image}' -n dev)
+
+          PREVIOUS_IMAGE=$(kubectl get deployment app-sumatoria -o=jsonpath='{$.spec.template.spec.containers[:1].image}' -n dev)
           echo "##vso[task.setvariable variable=previousImage]$PREVIOUS_IMAGE"
           echo "OLD: $PREVIOUS_IMAGE"
 
