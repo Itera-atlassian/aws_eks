@@ -126,9 +126,10 @@ stages:
           
           if kubectl rollout status deploy app-sumatoria -n dev --timeout=60s; then
              echo "Deployment succeeded"
-             kubectl set image deploy app-sumatoria app-sumatoria=$(previousImage) -n dev
+             
           else
              echo "Deployment failed"
+             kubectl set image deploy app-sumatoria app-sumatoria=$(previousImage) -n dev
              exit 1
           fi
       #continueOnError: true
