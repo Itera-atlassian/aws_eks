@@ -26,6 +26,7 @@ stages:
         script: |
           #https://kube-score.com/
           docker run -v $(pwd):/project zegl/kube-score:latest score manifest/*.yaml
+          docker run -v $(pwd):/project zegl/kube-score:latest score manifest/*.yaml --output-format ci 
 
 
     - script: |
