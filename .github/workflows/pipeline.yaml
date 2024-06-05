@@ -60,18 +60,11 @@ jobs:
         sed -i "s/latest/${IMAGE_TAG}/g" manifest/deployment.yaml
         cat manifest/deployment.yaml
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-2
+#    - name: Update kubeconfig
+#      run: |
+#        aws eks update-kubeconfig --region us-east-2 --name cluster-eks
 
-    - name: Update kubeconfig
-      run: |
-        aws eks update-kubeconfig --region us-east-2 --name cluster-eks
-
-    - name: Apply Kubernetes manifest
-      run: |
-        kubectl apply -f manifest/deployment.yaml
-        kubectl get all -A
+#    - name: Apply Kubernetes manifest
+#      run: |
+#        kubectl apply -f manifest/deployment.yaml
+#        kubectl get all -A
