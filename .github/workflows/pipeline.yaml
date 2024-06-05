@@ -60,11 +60,11 @@ jobs:
         sed -i "s/latest/${IMAGE_TAG}/g" manifest/deployment.yaml
         cat manifest/deployment.yaml
 
-#    - name: Update kubeconfig
-#      run: |
-#        aws eks update-kubeconfig --region us-east-2 --name cluster-eks
+    - name: Update kubeconfig
+      run: |
+        aws eks update-kubeconfig --region us-east-2 --name cluster-eks
 
-#    - name: Apply Kubernetes manifest
-#      run: |
-#        kubectl apply -f manifest/deployment.yaml
+    - name: Apply Kubernetes manifest
+      run: |
+        kubectl apply -f manifest/deployment.yaml
 #        kubectl get all -A
