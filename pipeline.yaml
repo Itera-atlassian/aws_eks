@@ -10,68 +10,169 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
 
-- script: |
-    # Configurar Python 3.11.3
-    sudo add-apt-repository ppa:deadsnakes/ppa -y
-    sudo apt-get update
-    sudo apt-get install python3.11 -y
-    python3.11 --version
-    pip install -r requeriments.txt
-  displayName: 'PYTHON: Install python 3.11'
+stages:
+- stage: StageCI
+  displayName: 'Stage CI'
+  jobs:
+  - job: BuildJob
+    displayName: 'Build - Python'
+    steps:
 
-#- script: |
-#    # Ejecutar pruebas unitarias aquí
-#    # Por ejemplo, puedes usar pytest para ejecutar tus pruebas
-#    pip install pytest
-#    pytest test_main.py -vv
-#  displayName: 'TEST: Run Unit Tests'
-
-- task: Bash@3
-  displayName: "TAG: define"
-  inputs:
-    targetType: 'inline'
-    script: |
-      TAG2=release-$(date  +%Y%m%d%H%M%S)-$(Build.SourceVersion)
-      echo "##vso[task.setvariable variable=tag]$TAG2"
-
-- script: |
-    docker build -t imagename:latest .
-    docker images
-  displayName: 'IMAGE: create image'
-
-- task: ECRPushImage@1
-  displayName: 'ECR: push image'
-  inputs:
-    awsCredentials: 'AWS_ECR_TEST'
-    regionName: 'us-east-2'
-    imageSource: 'imagename'
-    sourceImageName: 'imagename'
-    sourceImageTag: 'latest'
-    repositoryName: 'app-sumatoria'
-    pushTag: '$(tag)'
-
-- task: Bash@3
-  displayName: "EKS: manifest"
-  inputs:
-    targetType: 'inline'
-    script: |
-      sed -i "s/latest/$(tag)/g" manifest/deployment.yaml
-      cat manifest/deployment.yaml
+    - task: Bash@3
+      displayName: "EKS: manifest (kubescore)"
+      inputs:
+        targetType: 'inline'
+        script: |
+          #https://kube-score.com/
+          docker run -v $(pwd):/project zegl/kube-score:latest score manifest/*.yaml
+          docker run -v $(pwd):/project zegl/kube-score:latest score manifest/*.yaml --output-format ci 
 
 
-- task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
-  displayName: 'EKS: apply manifest'
-  inputs:
-    awsCredentials: 'AWS_ECR_TEST'
-    regionName: 'us-east-1'
-    scriptType: inline
-    inlineScript: |
-      echo 'Using identity'
-      aws sts get-caller-identity
+    - script: |
+        # Configurar Python 3.11.3
+        sudo add-apt-repository ppa:deadsnakes/ppa -y
+        sudo apt-get update
+        sudo apt-get install python3.11 -y
+        python3.11 --version
+        pip install -r requeriments.txt
+      displayName: 'PYTHON: Install python 3.11'
 
-      aws eks update-kubeconfig --region us-east-2 --name cluster-eks
+    - script: |
+        # Ejecutar pruebas unitarias aquí
+        # Por ejemplo, puedes usar pytest para ejecutar tus pruebas
+        pip install pytest
+        pytest test_main.py -vv
+      displayName: 'TEST: Run Unit Tests'
 
-      kubectl apply -f manifest/deployment.yaml
-      kubectl get all -A
+    - task: Bash@3
+      displayName: "TAG: define"
+      inputs:
+        targetType: 'inline'
+        script: |
+          TAG2=release-$(Build.SourceVersion)
+          echo "##vso[task.setvariable variable=tag]$TAG2"
+
+    - script: |
+        docker build -t imagename:latest .
+        docker images
+      displayName: 'IMAGE: create image'
+
+    - task: ECRPushImage@1
+      displayName: 'ECR: push image'
+      inputs:
+        awsCredentials: 'AWS_ECR_TEST'
+        regionName: 'us-east-2'
+        imageSource: 'imagename'
+        sourceImageName: 'imagename'
+        sourceImageTag: 'latest'
+        repositoryName: 'app-sumatoria'
+        pushTag: '$(tag)'
+
+
+
+- stage: StageCD
+  displayName: 'Stage CD'
+  jobs:
+  - job: BuildJob
+    displayName: 'Deploy to EKS'
+    steps:
+
+    - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
+      displayName: 'IMAGE: define'
+      inputs:
+        awsCredentials: 'AWS_ECR_TEST'
+        regionName: 'us-east-1'
+        scriptType: inline
+        inlineScript: |
+          aws eks update-kubeconfig --region us-east-2 --name cluster-eks
+
+          echo " .----------------.  .----------------.  .----------------.  .----------------.  .----------------."
+          echo "| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |"
+          echo "| |     _____    | || | ____    ____ | || |      __      | || |    ______    | || |  _________   | |"
+          echo "| |    |_   _|   | || ||_   \  /   _|| || |     /  \     | || |  .' ___  |   | || | |_   ___  |  | |"
+          echo "| |      | |     | || |  |   \/   |  | || |    / /\ \    | || | / .'   \_|   | || |   | |_  \_|  | |"
+          echo "| |      | |     | || |  | |\  /| |  | || |   / ____ \   | || | | |    ____  | || |   |  _|  _   | |"
+          echo "| |     _| |_    | || | _| |_\/_| |_ | || | _/ /    \ \_ | || | \ \`.___]  _| | || |  _| |___/ |  | |"
+          echo "| |    |_____|   | || ||_____||_____|| || ||____|  |____|| || |  \`._____.'   | || | |_________|  | |"
+          echo "| |              | || |              | || |              | || |              | || |              | |"
+          echo "| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |"
+          echo " '----------------'  '----------------'  '----------------'  '----------------'  '----------------'"
+
+
+          PREVIOUS_IMAGE=$(kubectl get deployment app-sumatoria -o=jsonpath='{$.spec.template.spec.containers[:1].image}' -n dev)
+          echo "##vso[task.setvariable variable=previousImage]$PREVIOUS_IMAGE"
+          echo "OLD: $PREVIOUS_IMAGE"
+
+          TAG2=release-$(Build.SourceVersion)
+          echo "##vso[task.setvariable variable=tag]$TAG2"
+          echo "NEW: $(echo $PREVIOUS_IMAGE | cut -d':' -f1):$TAG2"
+
+
+    - task: Bash@3
+      displayName: "EKS: manifest"
+      inputs:
+        targetType: 'inline'
+        script: |
+          sed -i "s/latest/$(tag)/g" manifest/deployment.yaml
+          cat manifest/deployment.yaml
+
+
+
+    - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
+      displayName: 'EKS: apply manifest'
+      inputs:
+        awsCredentials: 'AWS_ECR_TEST'
+        regionName: 'us-east-1'
+        scriptType: inline
+        inlineScript: |
+          aws sts get-caller-identity
+          aws eks update-kubeconfig --region us-east-2 --name cluster-eks
+          kubectl apply -f manifest/deployment.yaml
+
+
+    - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
+      displayName: 'EKS: validate deployment'
+      inputs:
+        awsCredentials: 'AWS_ECR_TEST'
+        regionName: 'us-east-1'
+        scriptType: inline
+        inlineScript: |
+          echo 'Using identity'
+          aws sts get-caller-identity
+          aws eks update-kubeconfig --region us-east-2 --name cluster-eks
+          
+          if kubectl rollout status deploy app-sumatoria -n dev --timeout=60s; then
+            echo "Deployment succeeded"
+             
+          else
+            echo "Deployment failed"
+            echo " .----------------.  .----------------.  .----------------.  .----------------."
+            echo "| .--------------. || .--------------. || .--------------. || .--------------. |"
+            echo "| |   _____      | || |     ____     | || |    ______    | || |    _______   | |"
+            echo "| |  |_   _|     | || |   .'    \`.   | || |  .' ___  |   | || |   /  ___  |  | |"
+            echo "| |    | |       | || |  /  .--.  \  | || | / .'   \_|   | || |  |  (__ \_|  | |"
+            echo "| |    | |   _   | || |  | |    | |  | || | | |    ____  | || |   '.___\`-.   | |"
+            echo "| |   _| |__/ |  | || |  \  \`--'  /  | || | \ \`.___]  _| | || |  |\`\____) |  | |"
+            echo "| |  |________|  | || |   \`.____.'   | || |  \`._____.'   | || |  |_______.'  | |"
+            echo "| |              | || |              | || |              | || |              | |"
+            echo "| '--------------' || '--------------' || '--------------' || '--------------' |"
+            echo " '----------------'  '----------------'  '----------------'  '----------------'"
+            for i in $(kubectl get pods -l app=app-sumatoria -n dev | grep -e '0/1' | cut -d' ' -f1); do kubectl logs $i -n dev; done
+
+            echo " .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------."
+            echo "| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |"
+            echo "| |  ________    | || |  _________   | || |    _______   | || |     ______   | || |  _______     | || |     _____    | || |   ______     | || |  _________   | |"
+            echo "| | |_   ___ \`.  | || | |_   ___  |  | || |   /  ___  |  | || |   .' ___  |  | || | |_   __ \    | || |    |_   _|   | || |  |_   _ \    | || | |_   ___  |  | |"
+            echo "| |   | |   \`. \ | || |   | |_  \_|  | || |  |  (__ \_|  | || |  / .'   \_|  | || |   | |__) |   | || |      | |     | || |    | |_) |   | || |   | |_  \_|  | |"
+            echo "| |   | |    | | | || |   |  _|  _   | || |   '.___\`-.   | || |  | |         | || |   |  __ /    | || |      | |     | || |    |  __'.   | || |   |  _|  _   | |"
+            echo "| |  _| |___.' / | || |  _| |___/ |  | || |  |\`\____) |  | || |  \ \`.___.'\  | || |  _| |  \ \_  | || |     _| |_    | || |   _| |__) |  | || |  _| |___/ |  | |"
+            echo "| | |________.'  | || | |_________|  | || |  |_______.'  | || |   \`._____.'  | || | |____| |___| | || |    |_____|   | || |  |_______/   | || | |_________|  | |"
+            echo "| |              | || |              | || |              | || |              | || |              | || |              | || |              | || |              | |"
+            echo "| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |"
+            echo " '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'"
+            for i in $(kubectl get pods -l app=app-sumatoria -n dev | grep -e '0/1' | cut -d' ' -f1); do kubectl describe pod $i -n dev; done
+            kubectl set image deploy app-sumatoria app-sumatoria=$(previousImage) -n dev
+            exit 1
+          fi
+      #continueOnError: true
